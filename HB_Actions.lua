@@ -15,7 +15,12 @@ local function local_queue_reset()
 end
 
 local function local_queue_insert(action, target)
-    actions.queue:append(tostring(action)..' → '..tostring(target))
+	if (tostring(action) ~= nil) and (tostring(target) ~= nil) then
+		actions.queue:append(tostring(action)..' → '..tostring(target))
+	else
+	
+	end
+    --actions.queue:append(tostring(action)..' → '..tostring(target))
 end
 
 local function local_queue_disp()
@@ -45,8 +50,12 @@ function actions.get_defensive_action()
 		while (not dbuffq:empty()) do
 			local dbact = dbuffq:pop()
             local_queue_insert(dbact.action.en, dbact.name)
-			if (action.debuff == nil) and healer:in_casting_range(dbact.name) and healer:ready_to_use(dbact.action) then
-				action.debuff = dbact
+			-- Added this to disable just Erase
+			log(dbact.action.en)
+			if (not settings.disable.erase and dbact.action.en == 'Erase') then
+				if (action.debuff == nil) and healer:in_casting_range(dbact.name) and healer:ready_to_use(dbact.action) then
+					action.debuff = dbact
+				end
 			end
 		end
 	end
@@ -54,7 +63,11 @@ function actions.get_defensive_action()
 		local buffq = buffs.getBuffQueue()
 		while (not buffq:empty()) do
 			local bact = buffq:pop()
-            local_queue_insert(bact.action.en, bact.name)
+
+			if (bact and bact.action and bact.action.en) then
+				local_queue_insert(bact.action.en, bact.name)
+			end
+            
 			if (action.buff == nil) and healer:in_casting_range(bact.name) and healer:ready_to_use(bact.action) then
 				action.buff = bact
 			end
