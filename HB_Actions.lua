@@ -49,10 +49,11 @@ function actions.get_defensive_action()
 		local dbuffq = buffs.getDebuffQueue()
 		while (not dbuffq:empty()) do
 			local dbact = dbuffq:pop()
-            local_queue_insert(dbact.action.en, dbact.name)
+
 			-- Added this to disable just Erase
-			log(dbact.action.en)
 			if (not settings.disable.erase and dbact.action.en ~= 'Erase') then
+				local_queue_insert(dbact.action.en, dbact.name)
+		
 				if (action.debuff == nil) and healer:in_casting_range(dbact.name) and healer:ready_to_use(dbact.action) then
 					action.debuff = dbact
 				end
