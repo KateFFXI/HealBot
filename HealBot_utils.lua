@@ -619,7 +619,7 @@ end
 --==============================================================================
 
 function printStatus()
-    windower.add_to_chat(1, 'HealBot is now '..(hb.active and 'active' or 'off')..'.')
+    windower.add_to_chat(1, 'HB is now '..(hb.active and 'active' or 'off')..'.')
 end
 
 --==============================================================================
@@ -666,7 +666,7 @@ function utils.load_configs()
     hb.config.priorities.dispel =         hb.config.priorities.dispel or {}     --not implemented yet
     hb.config.priorities.default =        hb.config.priorities.default or 5
     
-    process_mabil_debuffs()
+    --process_mabil_debuffs()
     local msg = hb.configs_loaded and 'Rel' or 'L'
     hb.configs_loaded = true
     atcc(262, msg..'oaded config files.')

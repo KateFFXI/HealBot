@@ -22,18 +22,18 @@ return {
             ['y'] = 0
         },
         ['actionQueue'] = {
-            ['font'] = 'Arial',
-            ['size'] = 10,
+            ['font'] = 'consolas',
+            ['size'] = 8,
             ['visible'] = true,
             ['x'] = -125,
             ['y'] = 300
         },
         ['montoredBox'] = {
-            ['font'] = 'Arial',
-            ['size'] = 10,
+            ['font'] = 'consolas',
+            ['size'] = 9,
             ['visible'] = true,
-            ['x'] = -150,
-            ['y'] = 600
+            ['x'] = -175,
+            ['y'] = 425
         },
         ['moveInfo'] = {
             ['visible'] = false,
