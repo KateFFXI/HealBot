@@ -55,13 +55,24 @@ function actions.get_defensive_action()
 			end
 			
 			-- Added this to disable just Erase
-			if (not settings.disable.erase or dbact.action.en ~= 'Erase') then
-				local_queue_insert(dbact.action.en, dbact.name)
-				
-				if dbact.action.en == 'Erase' then
-					log('Erase INSIDE')
+			if (dbact.action.en == 'Erase') then
+			
+				if (not settings.disable.erase) then
+					
+					local_queue_insert(dbact.action.en, dbact.name)
+					
+					if dbact.action.en == 'Erase' then
+						log(dbact.name)
+					end
+					log(dbact.name)
+					if (action.debuff == nil) and healer:in_casting_range(dbact.name) and healer:ready_to_use(dbact.action) then
+						action.debuff = dbact
+					end
 				end
-		
+			else
+				local_queue_insert(dbact.action.en, dbact.name)
+
+				log(dbact.name)
 				if (action.debuff == nil) and healer:in_casting_range(dbact.name) and healer:ready_to_use(dbact.action) then
 					action.debuff = dbact
 				end

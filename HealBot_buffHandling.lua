@@ -103,20 +103,31 @@ function buffs.getDebuffQueue()
         for id, info in pairs(debuffs) do
             local debuff = res.buffs[id]
             local removalSpellName = debuff_map[debuff.en]
-            if (removalSpellName ~= nil) then
-                if (info.attempted == nil) or ((now - info.attempted) >= 3) then
-                    local spell = res.spells:with('en', removalSpellName)
-                    if healer:can_use(spell) and ffxi.target_is_valid(spell, targ) then
-                        local ign = buffs.ignored_debuffs[debuff.en]
-                        if not ((ign ~= nil) and ((ign.all == true) or ((ign[targ] ~= nil) and (ign[targ] == true)))) then
-                            dbq:enqueue('debuff', spell, targ, debuff, ' ('..debuff.en..')')
-							
-                        end
-                    end
-                end
-            else
-                buffs.debuffList[targ][id] = nil
-            end
+
+				log(id) -- 3
+				log(debuff)
+				log(removalSpellName)
+			
+			if (id >= 557 and id <= 567) then
+				log(id)
+				buffs.debuffList[targ][id] = nil
+			else
+			
+				if (removalSpellName ~= nil) then
+					if (info.attempted == nil) or ((now - info.attempted) >= 3) then
+						local spell = res.spells:with('en', removalSpellName)
+						if healer:can_use(spell) and ffxi.target_is_valid(spell, targ) then
+							local ign = buffs.ignored_debuffs[debuff.en]
+							if not ((ign ~= nil) and ((ign.all == true) or ((ign[targ] ~= nil) and (ign[targ] == true)))) then
+								dbq:enqueue('debuff', spell, targ, debuff, ' ('..debuff.en..')')
+								
+							end
+						end
+					end
+				else
+					buffs.debuffList[targ][id] = nil
+				end
+			end
         end
     end
     return dbq:getQueue()
