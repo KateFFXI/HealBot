@@ -55,7 +55,7 @@ function actions.get_defensive_action()
 			end
 			
 			-- Added this to disable just Erase
-			if (not settings.disable.erase and dbact.action.en ~= 'Erase') then
+			if (not settings.disable.erase or dbact.action.en ~= 'Erase') then
 				local_queue_insert(dbact.action.en, dbact.name)
 				
 				if dbact.action.en == 'Erase' then
