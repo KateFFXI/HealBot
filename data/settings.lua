@@ -23,7 +23,7 @@ return {
         },
         ['actionQueue'] = {
             ['font'] = 'consolas',
-            ['size'] = 8,
+            ['size'] = 9,
             ['visible'] = true,
             ['x'] = -125,
             ['y'] = 300

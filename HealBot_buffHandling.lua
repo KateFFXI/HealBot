@@ -111,6 +111,9 @@ function buffs.getDebuffQueue()
 			if (id >= 557 and id <= 567) then
 				log(id)
 				buffs.debuffList[targ][id] = nil
+			elseif (id == 572) then
+				log(id)
+				buffs.debuffList[targ][id] = nil
 			else
 			
 				if (removalSpellName ~= nil) then
