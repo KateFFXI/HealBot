@@ -160,7 +160,7 @@ function buffs.getDebuffQueue()
             if ignored_debuff_ids:contains(id) then
                 buffs.debuffList[targ][id] = nil
             else
-				if (zone == 294 or zone == 295 or zone == 296 or zone == 297)
+				if (zone == 294 or zone == 295 or zone == 296 or zone == 297) then
 					if dyna_aura_ids:contains(id) then
 						buffs.debuffList[targ][id] = nil
 					else
