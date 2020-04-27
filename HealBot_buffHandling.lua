@@ -146,7 +146,10 @@ end
 -- end
 
 ignored_debuff_ids = S{29,572,557,556,557,558,559,560,561,562,563,564,565,566,567}
--- 31 Jeuno, 168 - Windurst, 13,565,21 - Bastok, 572,149,558 - Sandy
+-- Jeuno:		31
+-- Windurst:	168
+-- Bastok:		13,565,21
+-- San d'Oria:	572,149,558
 dyna_aura_ids = S{31,168,13,565,21,572,149,558}
 
 function buffs.getDebuffQueue()
