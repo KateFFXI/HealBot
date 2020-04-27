@@ -86,8 +86,25 @@ hb._events['logout'] = windower.register_event('logout', function()
 end)
 
 
+-- hb._events['zone'] = windower.register_event('zone change', function(new_id, old_id)
+    -- healer.zone_enter = os.clock()
+    -- local zone_info = windower.ffxi.get_info()
+    -- if zone_info ~= nil then
+        -- if zone_info.zone == 131 then
+            -- windower.send_command('lua unload healBot')
+        -- elseif zone_info.mog_house == true then
+            -- hb.active = false
+        -- elseif settings.deactivateIndoors and indoor_zones:contains(zone_info.zone) then
+            -- hb.active = false
+        -- elseif settings.activateOutdoors and not indoor_zones:contains(zone_info.zone) then
+            -- hb.active = true
+        -- end
+    -- end
+-- end)
+
 hb._events['zone'] = windower.register_event('zone change', function(new_id, old_id)
     healer.zone_enter = os.clock()
+    buffs.resetDebuffTimers('ALL')
     local zone_info = windower.ffxi.get_info()
     if zone_info ~= nil then
         if zone_info.zone == 131 then
@@ -183,15 +200,11 @@ function haveBuff(...)
         end
     end
 	
-	if haveBuff('Level Restriction') then
-		--log('restriction on')
-	else
-		log('No more restrict')
-		buffs.resetDebuffTimers(player.name)
-	end
-	
     return false
 end
+
+
+
 
 function hb.activate()
     local player = windower.ffxi.get_player()
@@ -233,6 +246,7 @@ function hb.addPlayer(list, player)
 end
 
 
+watchall = false
 local function _getMonitoredPlayers()
     local pt = windower.ffxi.get_party()
     local my_zone = pt.p0.zone
@@ -241,7 +255,7 @@ local function _getMonitoredPlayers()
         for m = 1, pt[pt_keys[p]] do
             local pt_member = pt[pm_keys[p][m]]
             if my_zone == pt_member.zone then
-                if p == 1 or hb.extraWatchList:contains(pt_member.name) then
+                if p == 1 or hb.extraWatchList:contains(pt_member.name) or watchall then
                     hb.addPlayer(targets, pt_member)
                 end
             end
@@ -324,6 +338,8 @@ function hb.isPerformingAction(moving)
             status = status..' | \\cs(255,0,0)LOW MP\\cr'
         end
     end
+	
+
     
     local hb_status = hb.active and '\\cs(0,0,255)[ON]\\cr' or '\\cs(255,0,0)[OFF]\\cr'
     hb.txts.actionInfo:text((' %s %s %s'):format(hb_status, healer.name, status))
@@ -331,6 +347,13 @@ function hb.isPerformingAction(moving)
     return acting
 end
 
+
+	-- if haveBuff('Level Restriction') then
+		-- --log('restriction on')
+	-- else
+		-- log('No more restrict')
+		-- buffs.resetDebuffTimers(player.name)
+	-- end
 
 function hb.process_ipc(msg)
     local loaded = serialua.decode(msg)

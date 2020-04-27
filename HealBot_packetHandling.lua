@@ -55,6 +55,29 @@ end
     :param ai: parsed action info
     :param set monitored_ids: the IDs of PCs that are being monitored
 --]]
+-- function processMessage(ai, monitored_ids)
+    -- if monitored_ids[ai.actor_id] or monitored_ids[ai.target_id] then
+        -- if not (messages_blacklist:contains(ai.message_id)) then
+            -- local target = windower.ffxi.get_mob_by_id(ai.target_id)
+            
+            -- if hb.modes.showPacketInfo then
+                -- local actor = windower.ffxi.get_mob_by_id(ai.actor_id)
+                -- local msg = res.action_messages[ai.message_id] or {en='???'}
+                -- local params = (', '):join(tostring(ai.param_1), tostring(ai.param_2), tostring(ai.param_3))
+                -- atcfs('[0x29]Message(%s): %s { %s } %s %s | %s', ai.message_id, actor.name, params, rarr, target.name, msg.en)
+            -- end
+            
+            -- if messages_wearOff:contains(ai.message_id) then
+                -- if enfeebling:contains(ai.param_1) then
+                    -- buffs.register_debuff(target, res.buffs[ai.param_1], false)
+                -- else
+                    -- buffs.register_buff(target, res.buffs[ai.param_1], false)
+                -- end
+            -- end
+        -- end--/message ID not on blacklist
+    -- end--/monitoring actor or target
+-- end
+
 function processMessage(ai, monitored_ids)
     if monitored_ids[ai.actor_id] or monitored_ids[ai.target_id] then
         if not (messages_blacklist:contains(ai.message_id)) then
@@ -68,7 +91,9 @@ function processMessage(ai, monitored_ids)
             end
             
             if messages_wearOff:contains(ai.message_id) then
-                if enfeebling:contains(ai.param_1) then
+                if ai.param_1 == 143 then
+                    buffs.resetDebuffTimers('ALL')
+                elseif enfeebling:contains(ai.param_1) then
                     buffs.register_debuff(target, res.buffs[ai.param_1], false)
                 else
                     buffs.register_buff(target, res.buffs[ai.param_1], false)

@@ -279,6 +279,14 @@ function processCommand(command,...)
         end
     elseif S{'ignore', 'unignore', 'watch', 'unwatch'}:contains(command) then
         monitorCommand(command, args[1])
+	elseif command == 'watchall' then
+        if watchall == false then
+            watchall = true
+            atc(123,'Watch all parties set to true.')
+        elseif watchall == true then
+            watchall = false
+            atc(123,'Watch all parties set to false.')
+        end
     elseif command == 'ignoretrusts' then
         utils.toggleX(settings, 'ignoreTrusts', args[1], 'Ignoring of Trust NPCs', 'IgnoreTrusts')
     elseif command == 'packetinfo' then
