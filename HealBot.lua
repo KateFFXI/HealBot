@@ -66,9 +66,11 @@ hb._events['load'] = windower.register_event('load', function()
         windower.add_to_chat(39, err_msg)
         error(err_msg)
     end
+	
     atcc(262, 'Welcome to HealBot! To see a list of commands, type //hb help')
 
     _G["healer"] = _libs.lor.actor.Actor.new()
+	zone_info = windower.ffxi.get_info()
     utils.load_configs()
     CureUtils.init_cure_potencies()
 end)
@@ -105,7 +107,7 @@ end)
 hb._events['zone'] = windower.register_event('zone change', function(new_id, old_id)
     healer.zone_enter = os.clock()
     buffs.resetDebuffTimers('ALL')
-    local zone_info = windower.ffxi.get_info()
+    zone_info = windower.ffxi.get_info()
     if zone_info ~= nil then
         if zone_info.zone == 131 then
             windower.send_command('lua unload healBot')
