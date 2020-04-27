@@ -18,28 +18,39 @@ return {
     ['textBoxes'] = {
         ['actionInfo'] = {
             ['visible'] = true,
+			['font'] = 'consolas',
+			['size'] = 11,
             ['x'] = 0,
             ['y'] = 0
         },
         ['actionQueue'] = {
             ['font'] = 'consolas',
-            ['size'] = 9,
+            ['size'] = 10,
             ['visible'] = true,
-            ['x'] = -125,
-            ['y'] = 300
+            ['x'] = -565,
+            ['y'] = 125,
         },
         ['montoredBox'] = {
             ['font'] = 'consolas',
-            ['size'] = 9,
+            ['size'] = 10,
             ['visible'] = true,
-            ['x'] = -175,
+            ['x'] = -200,
             ['y'] = 425
         },
         ['moveInfo'] = {
+			['font'] = 'consolas',
+            ['size'] = 10,
             ['visible'] = false,
             ['x'] = 0,
             ['y'] = 18
-        }
+        },
+		['bg'] = {
+            ['alpha'] = 50,
+            ['blue'] = 0,
+            ['green'] = 0,
+            ['red'] = 0,
+            ['visible'] = true,
+        },
     },
     ['deactivateIndoors'] = true,
     ['activateOutdoors'] = false
