@@ -159,43 +159,52 @@ function buffs.getDebuffQueue()
         for id, info in pairs(debuffs) do
             if ignored_debuff_ids:contains(id) then
                 buffs.debuffList[targ][id] = nil
+				-- debug
+				log(id)
             else
 				if (zone == 294 or zone == 295 or zone == 296 or zone == 297) then
 					if dyna_aura_ids:contains(id) then
 						buffs.debuffList[targ][id] = nil
-					else
-			
-							local debuff = res.buffs[id]
-							local removalSpellName = debuff_map[debuff.en]
-							
-						if (id >= 557 and id <= 567) then
-							log(id)
-							--buffs.debuffList[targ][id] = nil
-						elseif (id == 572) then
-							log(id)
-							--buffs.debuffList[targ][id] = nil
-						end
-							
-							if (removalSpellName ~= nil) then
-								if (info.attempted == nil) or ((now - info.attempted) >= 3) then
-									local spell = res.spells:with('en', removalSpellName)
-									if healer:can_use(spell) and ffxi.target_is_valid(spell, targ) then
-										local ign = buffs.ignored_debuffs[debuff.en]
-										if not ((ign ~= nil) and ((ign.all == true) or ((ign[targ] ~= nil) and (ign[targ] == true)))) then
-											dbq:enqueue('debuff', spell, targ, debuff, ' ('..debuff.en..')')
-										end
+					else -- non aura removal
+						local debuff = res.buffs[id]
+						local removalSpellName = debuff_map[debuff.en]
+						
+						if (removalSpellName ~= nil) then
+							if (info.attempted == nil) or ((now - info.attempted) >= 3) then
+								local spell = res.spells:with('en', removalSpellName)
+								if healer:can_use(spell) and ffxi.target_is_valid(spell, targ) then
+									local ign = buffs.ignored_debuffs[debuff.en]
+									if not ((ign ~= nil) and ((ign.all == true) or ((ign[targ] ~= nil) and (ign[targ] == true)))) then
+										dbq:enqueue('debuff', spell, targ, debuff, ' ('..debuff.en..')')
 									end
 								end
-							else
-								buffs.debuffList[targ][id] = nil
 							end
+						else
+							buffs.debuffList[targ][id] = nil
+						end
 					end
-				end
-            end
-        end
-    end
+				else -- not in dyna zones
+					local debuff = res.buffs[id]
+					local removalSpellName = debuff_map[debuff.en]
+											
+					if (removalSpellName ~= nil) then
+						if (info.attempted == nil) or ((now - info.attempted) >= 3) then
+							local spell = res.spells:with('en', removalSpellName)
+							if healer:can_use(spell) and ffxi.target_is_valid(spell, targ) then
+								local ign = buffs.ignored_debuffs[debuff.en]
+								if not ((ign ~= nil) and ((ign.all == true) or ((ign[targ] ~= nil) and (ign[targ] == true)))) then
+									dbq:enqueue('debuff', spell, targ, debuff, ' ('..debuff.en..')')
+								end
+							end
+						end
+					else
+						buffs.debuffList[targ][id] = nil
+					end
+				end -- if dyna
+            end -- if ignore
+        end -- for
+    end -- for
     return dbq:getQueue()
-	
 end -- function
 
 --==============================================================================
