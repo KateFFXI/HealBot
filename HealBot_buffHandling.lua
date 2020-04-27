@@ -105,7 +105,7 @@ function buffs.getDebuffQueue()
             local removalSpellName = debuff_map[debuff.en]
 
 				log(id) -- 3
-				log(debuff)
+				--log(debuff)
 				log(removalSpellName)
 			
 			if (id >= 557 and id <= 567) then
@@ -122,8 +122,13 @@ function buffs.getDebuffQueue()
 						if healer:can_use(spell) and ffxi.target_is_valid(spell, targ) then
 							local ign = buffs.ignored_debuffs[debuff.en]
 							if not ((ign ~= nil) and ((ign.all == true) or ((ign[targ] ~= nil) and (ign[targ] == true)))) then
-								dbq:enqueue('debuff', spell, targ, debuff, ' ('..debuff.en..')')
-								
+								-- if (id == 2) then -- slept
+									-- SleptSpell = 'Cure'
+									-- dbq:enqueue('debuff', SleptSpell, targ, debuff, ' ('..debuff.en..')')
+								-- else
+									dbq:enqueue('debuff', spell, targ, debuff, ' ('..debuff.en..')')
+									log(spell)
+								--end
 							end
 						end
 					end
@@ -131,6 +136,10 @@ function buffs.getDebuffQueue()
 					buffs.debuffList[targ][id] = nil
 				end
 			end
+
+
+
+		
         end
     end
     return dbq:getQueue()

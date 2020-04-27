@@ -58,6 +58,7 @@ local pm_keys = {
     {'p0','p1','p2','p3','p4','p5'}, {'a10','a11','a12','a13','a14','a15'}, {'a20','a21','a22','a23','a24','a25'}
 }
 
+local LevelRestrict = false
 
 hb._events['load'] = windower.register_event('load', function()
     if not _libs.lor then
@@ -118,6 +119,7 @@ hb._events['cmd'] = windower.register_event('addon command', processCommand)
 --]]
 hb._events['render'] = windower.register_event('prerender', function()
     if not hb.configs_loaded then return end
+
     local now = os.clock()
     local moving = hb.isMoving()
     local acting = hb.isPerformingAction(moving)
@@ -168,6 +170,28 @@ hb._events['render'] = windower.register_event('prerender', function()
     end
 end)
 
+
+function haveBuff(...)
+    local args = S{...}:map(string.lower)
+    local player = windower.ffxi.get_player()
+    if (player ~= nil) and (player.buffs ~= nil) then
+        for _,bid in pairs(player.buffs) do
+            local buff = res.buffs[bid]
+            if args:contains(buff.en:lower()) then
+                return true
+            end
+        end
+    end
+	
+	if haveBuff('Level Restriction') then
+		--log('restriction on')
+	else
+		log('No more restrict')
+		buffs.resetDebuffTimers(player.name)
+	end
+	
+    return false
+end
 
 function hb.activate()
     local player = windower.ffxi.get_player()
@@ -288,7 +312,7 @@ function hb.isPerformingAction(moving)
     elseif healer.zone_wait then
         healer.zone_wait = false
         buffs.resetBuffTimers('ALL', S{'Protect V', 'Shell V'})
-    elseif healer:buff_active('Sleep','Petrification','Charm','Terror','Lullaby','Stun','Silence','Mute') then
+    elseif healer:buff_active('Petrification','Charm','Terror','Stun','Silence','Mute') then -- ('Sleep','Petrification','Charm','Terror','Lullaby','Stun','Silence','Mute')
         acting = true
         status = 'is disabled'
     end
