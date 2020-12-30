@@ -9,6 +9,9 @@ return {
         13,
         194
     },
+    ["Archaic Chariot"] = S{
+        2
+    },
     ["August"] = S{
         2
     },
@@ -32,6 +35,9 @@ return {
     ["Bozzetto Bruiser"] = S{
         10,
         28
+    },
+    ["Bozzetto Charger"] = S{
+        10
     },
     ["Bozzetto Chaser"] = S{
         2,
@@ -87,6 +93,12 @@ return {
     },
     ["Bozzetto Swiftshooter"] = S{
         28
+    },
+    ["Brimboil"] = S{
+        28
+    },
+    ["Brittle Rock"] = S{
+        3
     },
     ["Broadleaf Palm"] = S{
         2,
@@ -191,7 +203,8 @@ return {
         194
     },
     ["Kyou"] = S{
-        10
+        10,
+        28
     },
     ["Laevvid"] = S{
         28
@@ -217,6 +230,12 @@ return {
     ["Npfundlwa"] = S{
         11
     },
+    ["Odin"] = S{
+        10
+    },
+    ["Okyupete"] = S{
+        2
+    },
     ["Ou"] = S{
         2,
         7,
@@ -238,11 +257,17 @@ return {
     ["Rancibus"] = S{
         28
     },
+    ["Sarameya"] = S{
+        194
+    },
     ["Sere Stump"] = S{
         194
     },
     ["Thunder Circle"] = S{
         194
+    },
+    ["Tinnin"] = S{
+        2
     },
     ["Wasp Nest"] = S{
         194

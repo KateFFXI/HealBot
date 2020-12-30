@@ -141,6 +141,9 @@ function buffs.getDebuffQueue()
 					local debuff = res.buffs[id]
 					local removalSpellName = debuff_map[debuff.en]
 											
+						--log(id)
+						--log(removalSpellName)
+											
 					if (removalSpellName ~= nil) then
 						if (info.attempted == nil) or ((now - info.attempted) >= 3) then
 							local spell = res.spells:with('en', removalSpellName)
@@ -149,6 +152,8 @@ function buffs.getDebuffQueue()
 								if not ((ign ~= nil) and ((ign.all == true) or ((ign[targ] ~= nil) and (ign[targ] == true)))) then
 									dbq:enqueue('debuff', spell, targ, debuff, ' ('..debuff.en..')')
 								end
+								
+								
 							end
 						end
 					else

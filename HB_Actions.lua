@@ -72,7 +72,7 @@ function actions.get_defensive_action()
 			else
 				local_queue_insert(dbact.action.en, dbact.name)
 
-				log(dbact.name)
+				--log(dbact.name)
 				if (action.debuff == nil) and healer:in_casting_range(dbact.name) and healer:ready_to_use(dbact.action) then
 					action.debuff = dbact
 				end
