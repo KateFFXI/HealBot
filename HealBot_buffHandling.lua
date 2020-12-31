@@ -50,6 +50,8 @@ function buffs.review_active_buffs(player, buff_list)
         
         --Double check the list of what should be active
         local checklist = buffs.buffList[player.name] or {}
+        local debuffChecklist = buffs.debuffList[player.name] or {}
+
         local active = S(buff_list)
         for bname,binfo in pairs(checklist) do
             if binfo.is_geo or binfo.is_indi then
@@ -68,9 +70,17 @@ function buffs.review_active_buffs(player, buff_list)
                 end
             else
                 if binfo.buff then                                              -- FIXME: Temporary fix for geo error
-                    if active:contains(binfo.buff.id) then
+                    if not active:contains(binfo.buff.id) then
                         buffs.register_buff(player, res.buffs[binfo.buff.id], false)
                     end
+                end
+            end
+        end
+
+        for dbname, dbinfo in pairs(debuffChecklist) do
+            if dbinfo.buff then
+                if active:contains(dbinfo.buff.id) then
+                    buffs.register_debuff(player, res.buffs[dbinfo.buff.id], false)
                 end
             end
         end
