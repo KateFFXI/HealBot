@@ -383,6 +383,7 @@ function buffs.register_debuff(target, debuff, gain, action)
     log('Debuff: '+ debuff)
     if debuff_tbl:contains(debuff) then
         return
+    end
     
     if gain then
         if is_enemy then
