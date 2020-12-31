@@ -23,16 +23,6 @@ function buffs.checkOwnBuffs()
     if player ~= nil then
         buffs.review_active_buffs(player, player.buffs)
     end
-
-    -- Checks for buffs/debuffs inside the party to bypass healbot stupidity
-    for k, v in pairs(windower.ffxi.get_party()) do
-        if type(v) == 'table' and player ~=nil then
-            if v.name ~= player.name then
-                -- v stands for partyMember
-                buffs.review_active_buffs(v, v.buffs)
-            end
-        end  
-    end
 end
 
 
