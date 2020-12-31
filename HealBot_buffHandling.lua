@@ -31,7 +31,7 @@ function buffs.checkOwnBuffs()
                 -- v stands for partyMember
                 buffs.review_active_buffs(v, v.buffs)
             end
-        end
+            
     end
 end
 
@@ -378,6 +378,11 @@ function buffs.register_debuff(target, debuff, gain, action)
     end
     local debuff_tbl = is_enemy and offense.mobs[tid] or buffs.debuffList[tname]
     local msg = is_enemy and 'mob 'or ''
+
+    log('Debuff-table: '+ debuff_tbl)
+    log('Debuff: '+ debuff)
+    if debuff_tbl:contains(debuff) then
+        return
     
     if gain then
         if is_enemy then
