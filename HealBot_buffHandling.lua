@@ -379,8 +379,10 @@ function buffs.register_debuff(target, debuff, gain, action)
     local debuff_tbl = is_enemy and offense.mobs[tid] or buffs.debuffList[tname]
     local msg = is_enemy and 'mob 'or ''
 
-    log('Debuff-table: '+ debuff_tbl)
-    log('Debuff: '+ debuff)
+    log('Debuff-table: ')
+    log(debuff_tbl)
+    log('Debuff: ')
+    log(debuff)
     if debuff_tbl:contains(debuff) then
         return
     end
