@@ -28,13 +28,10 @@ end
 
 function buffs.review_active_buffs(player, buff_list)
     if buff_list ~= nil then
-        local active = S(buff_list)
         --Register everything that's actually active
         for _,bid in pairs(buff_list) do
             local buff = res.buffs[bid]
-            if (active:contains(bid)) and (enfeebling:contains(bid)) then
-                buffs.register_debuff(player, buff, false)
-            elseif (enfeebling:contains(bid)) then
+            if (enfeebling:contains(bid)) then
                 buffs.register_debuff(player, buff, true)
             else
                 buffs.register_buff(player, buff, true)
@@ -43,9 +40,7 @@ function buffs.review_active_buffs(player, buff_list)
         
         --Double check the list of what should be active
         local checklist = buffs.buffList[player.name] or {}
-        local debuffChecklist = buffs.debuffList[player.name] or {}
-
-        
+        local active = S(buff_list)
         for bname,binfo in pairs(checklist) do
             if binfo.is_geo or binfo.is_indi then
                 if binfo.is_geo and binfo.action then
@@ -146,6 +141,9 @@ function buffs.getDebuffQueue()
 					local debuff = res.buffs[id]
 					local removalSpellName = debuff_map[debuff.en]
 											
+						--log(id)
+						--log(removalSpellName)
+											
 					if (removalSpellName ~= nil) then
 						if (info.attempted == nil) or ((now - info.attempted) >= 3) then
 							local spell = res.spells:with('en', removalSpellName)
@@ -154,6 +152,8 @@ function buffs.getDebuffQueue()
 								if not ((ign ~= nil) and ((ign.all == true) or ((ign[targ] ~= nil) and (ign[targ] == true)))) then
 									dbq:enqueue('debuff', spell, targ, debuff, ' ('..debuff.en..')')
 								end
+								
+								
 							end
 						end
 					else
@@ -368,7 +368,6 @@ function buffs.register_debuff(target, debuff, gain, action)
     end
     local debuff_tbl = is_enemy and offense.mobs[tid] or buffs.debuffList[tname]
     local msg = is_enemy and 'mob 'or ''
-
     
     if gain then
         if is_enemy then

@@ -328,7 +328,7 @@ function hb.isPerformingAction(moving)
     elseif healer.zone_wait then
         healer.zone_wait = false
         buffs.resetBuffTimers('ALL', S{'Protect V', 'Shell V'})
-    elseif healer:buff_active('Petrification','Charm','Terror','Stun','Silence','Mute') then -- ('Sleep','Petrification','Charm','Terror','Lullaby','Stun','Silence','Mute')
+    elseif healer:buff_active('Petrification','Charm','Terror','Stun','Mute') then -- ('Sleep','Petrification','Charm','Terror','Lullaby','Stun','Silence','Mute')
         acting = true
         status = 'is disabled'
     end
