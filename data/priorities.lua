@@ -35,7 +35,7 @@ return {
         ['rasp'] = 7,
         ['repose'] = 0,
         ['shock'] = 7,
-        ['silence'] = 1,
+        ['silence'] = 2,
         ['sleep'] = 0,
         ['slow'] = 4,
         ['stun'] = -1
@@ -107,7 +107,8 @@ return {
         ['whm'] = 4
     },
     ['players'] = {
- 
+        ['Mipha'] = 1,
+		['Urbosa'] = 1
     },
     ['status_removal'] = {
         ['addle'] = 2,
@@ -125,7 +126,6 @@ return {
         ['poison'] = 4,
         ['silence'] = 1,
         ['slow'] = 1,
-        ['weight'] = 4,
-		['sleep'] = 1
+        ['weight'] = 4
     }
 }
