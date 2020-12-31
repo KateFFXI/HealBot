@@ -32,7 +32,7 @@ function buffs.review_active_buffs(player, buff_list)
         --Register everything that's actually active
         for _,bid in pairs(buff_list) do
             local buff = res.buffs[bid]
-            if (active:contains(bid)) then
+            if (active:contains(bid)) and (enfeebling:contains(bid)) then
                 buffs.register_debuff(player, buff, false)
             elseif (enfeebling:contains(bid)) then
                 buffs.register_debuff(player, buff, true)
