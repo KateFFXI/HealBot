@@ -28,11 +28,14 @@ end
 
 function buffs.review_active_buffs(player, buff_list)
     if buff_list ~= nil then
+        local active = S(buff_list)
         --Register everything that's actually active
         for _,bid in pairs(buff_list) do
             local buff = res.buffs[bid]
             if (enfeebling:contains(bid)) then
                 buffs.register_debuff(player, buff, true)
+            elseif active:contains(dbinfo.buff.id)
+                buffs.register_debuff(player, buff, false)
             else
                 buffs.register_buff(player, buff, true)
             end
@@ -42,7 +45,7 @@ function buffs.review_active_buffs(player, buff_list)
         local checklist = buffs.buffList[player.name] or {}
         local debuffChecklist = buffs.debuffList[player.name] or {}
 
-        local active = S(buff_list)
+        
         for bname,binfo in pairs(checklist) do
             if binfo.is_geo or binfo.is_indi then
                 if binfo.is_geo and binfo.action then
@@ -63,14 +66,6 @@ function buffs.review_active_buffs(player, buff_list)
                     if not active:contains(binfo.buff.id) then
                         buffs.register_buff(player, res.buffs[binfo.buff.id], false)
                     end
-                end
-            end
-        end
-
-        for dbname, dbinfo in pairs(debuffChecklist) do
-            if dbinfo.buff then
-                if active:contains(dbinfo.buff.id) then
-                    buffs.register_debuff(player, res.buffs[dbinfo.buff.id], false)
                 end
             end
         end
@@ -151,6 +146,9 @@ function buffs.getDebuffQueue()
 					local debuff = res.buffs[id]
 					local removalSpellName = debuff_map[debuff.en]
 											
+						--log(id)
+						--log(removalSpellName)
+											
 					if (removalSpellName ~= nil) then
 						if (info.attempted == nil) or ((now - info.attempted) >= 3) then
 							local spell = res.spells:with('en', removalSpellName)
@@ -159,6 +157,8 @@ function buffs.getDebuffQueue()
 								if not ((ign ~= nil) and ((ign.all == true) or ((ign[targ] ~= nil) and (ign[targ] == true)))) then
 									dbq:enqueue('debuff', spell, targ, debuff, ' ('..debuff.en..')')
 								end
+								
+								
 							end
 						end
 					else
