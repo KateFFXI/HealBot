@@ -30,6 +30,8 @@ function buffs.checkOwnBuffs()
             if v.name ~= player.name then
                 -- v stands for partyMember
                 buffs.review_active_buffs(v, v.buffs)
+            end
+        end
     end
 end
 
