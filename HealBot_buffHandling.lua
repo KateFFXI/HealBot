@@ -68,7 +68,7 @@ function buffs.review_active_buffs(player, buff_list)
                 end
             else
                 if binfo.buff then                                              -- FIXME: Temporary fix for geo error
-                    if not active:contains(binfo.buff.id) then
+                    if active:contains(binfo.buff.id) then
                         buffs.register_buff(player, res.buffs[binfo.buff.id], false)
                     end
                 end
@@ -379,13 +379,6 @@ function buffs.register_debuff(target, debuff, gain, action)
     local debuff_tbl = is_enemy and offense.mobs[tid] or buffs.debuffList[tname]
     local msg = is_enemy and 'mob 'or ''
 
-    log('Debuff-table: ')
-    log(debuff_tbl)
-    log('Debuff: ')
-    log(debuff)
-    if debuff_tbl:contains(debuff) then
-        return
-    end
     
     if gain then
         if is_enemy then
