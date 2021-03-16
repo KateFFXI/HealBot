@@ -18,14 +18,14 @@ cu.cure = {
     [3] = {id=3,    en='Cure III',          res=res.spells[3]},
     [4] = {id=4,    en='Cure IV',           res=res.spells[4]},
     [5] = {id=5,    en='Cure V',            res=res.spells[5]},
-    [6] = {id=6,    en='Cure VI',           res=res.spells[6]}
+--    [6] = {id=6,    en='Cure VI',           res=res.spells[6]}
 }
 cu.curaga = {
     [1] = {id=7,    en='Curaga',            res=res.spells[7]},
     [2] = {id=8,    en='Curaga II',         res=res.spells[8]},
     [3] = {id=9,    en='Curaga III',        res=res.spells[9]},
     [4] = {id=10,   en='Curaga IV',         res=res.spells[10]},
-    [5] = {id=11,   en='Curaga V',          res=res.spells[11]}
+--    [5] = {id=11,   en='Curaga V',          res=res.spells[11]}
 }
 cu.waltz = {
     [1] = {id=190,  en='Curing Waltz',      res=res.job_abilities[190]},
@@ -132,9 +132,12 @@ function cu.pick_best_curaga_possibility()
             for memberB, b in pairs(members) do
                 if b then
                     if memberA ~= memberB then
-						
-                        local dist = a.pos:getDistance(b.pos)
-						if dist == nil then dist = 1 end
+
+						if pos == nil then dist = 1
+						else
+							local dist = a.pos:getDistance(b.pos)
+							if dist == nil then dist = 1 end
+						end
                         distances[memberA]:insert(dist)
                         if dist < 10 then
                             coverage[memberA]:insert(memberB)

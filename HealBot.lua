@@ -1,4 +1,4 @@
-_addon.name = 'HealBot'
+_addon.name = 'HB'
 _addon.author = 'Lorand'
 _addon.command = 'hb'
 _addon.lastUpdate = '2018.05.22.0'
@@ -62,12 +62,12 @@ local LevelRestrict = false
 
 hb._events['load'] = windower.register_event('load', function()
     if not _libs.lor then
-        local err_msg = 'HealBot ERROR: Missing core requirement: https://github.com/lorand-ffxi/lor_libs'
+        local err_msg = 'HB ERROR: Missing core requirement: https://github.com/lorand-ffxi/lor_libs'
         windower.add_to_chat(39, err_msg)
         error(err_msg)
     end
 	
-    atcc(262, 'Welcome to HealBot! To see a list of commands, type //hb help')
+    atcc(262, '- Welcome to HB! -')
 
     _G["healer"] = _libs.lor.actor.Actor.new()
 	zone_info = windower.ffxi.get_info()

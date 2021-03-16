@@ -5,7 +5,7 @@ return {
     ['healing'] = {
         ['curaga_min_targets'] = 3,
         ['min'] = {
-            ['curaga'] = 2,
+            ['curaga'] = 1,
             ['cure'] = 3,
             ['waltz'] = 2,
             ['waltzga'] = 1

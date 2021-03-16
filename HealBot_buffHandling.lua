@@ -101,7 +101,7 @@ ignored_debuff_ids = S{29,572,557,556,557,558,559,560,561,562,563,564,565,566,56
 -- Windurst:	168
 -- Bastok:		13,565,21
 -- San d'Oria:	572,149,558
-dyna_aura_ids = S{31,168,13,565,21,572,149,558}
+dyna_aura_ids = S{31,168,13,565,21,572,149,558,134,135}
 
 function buffs.getDebuffQueue()
 
@@ -113,15 +113,18 @@ function buffs.getDebuffQueue()
             if ignored_debuff_ids:contains(id) then
                 buffs.debuffList[targ][id] = nil
 				-- debug
-				log(id)
+				atcd('Ignore debuff - ' .. id)
             else
 				-- Special case for Dynamis D. Zones
 				if (zone_info.zone == 294 or zone_info.zone == 295 or zone_info.zone == 296 or zone_info.zone == 297) then
 					if dyna_aura_ids:contains(id) then
+					--	log('Dyna D Aura - ' .. id)
 						buffs.debuffList[targ][id] = nil
 					else -- non aura removal
 						local debuff = res.buffs[id]
 						local removalSpellName = debuff_map[debuff.en]
+						
+						--log('Current debuffs to remove: ' .. id)
 						
 						if (removalSpellName ~= nil) then
 							if (info.attempted == nil) or ((now - info.attempted) >= 3) then
@@ -141,7 +144,7 @@ function buffs.getDebuffQueue()
 					local debuff = res.buffs[id]
 					local removalSpellName = debuff_map[debuff.en]
 											
-						--log(id)
+						--log('Current debuffs to remove: ' .. id)
 						--log(removalSpellName)
 											
 					if (removalSpellName ~= nil) then
