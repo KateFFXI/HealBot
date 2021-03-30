@@ -113,7 +113,7 @@ function buffs.getDebuffQueue()
             if ignored_debuff_ids:contains(id) then
                 buffs.debuffList[targ][id] = nil
 				-- debug
-				atcd('Ignore debuff - ' .. id)
+				--log('Ignore debuff - ' .. id)
             else
 				-- Special case for Dynamis D. Zones
 				if (zone_info.zone == 294 or zone_info.zone == 295 or zone_info.zone == 296 or zone_info.zone == 297) then

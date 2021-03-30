@@ -131,18 +131,27 @@ function cu.pick_best_curaga_possibility()
             distances[memberA] = LT()
             for memberB, b in pairs(members) do
                 if b then
-                    if memberA ~= memberB then
-
-						if pos == nil then dist = 1
-						else
-							local dist = a.pos:getDistance(b.pos)
-							if dist == nil then dist = 1 end
-						end
+					-- Original
+					if memberA ~= memberB then
+                        local dist = a.pos:getDistance(b.pos)
                         distances[memberA]:insert(dist)
                         if dist < 10 then
                             coverage[memberA]:insert(memberB)
                         end
                     end
+					-- Changed
+                    -- if memberA ~= memberB then
+
+						-- if pos == nil then dist = 1
+						-- else
+							-- local dist = a.pos:getDistance(b.pos)
+							-- if dist == nil then dist = 1 end
+						-- end
+                        -- distances[memberA]:insert(dist)
+                        -- if dist < 10 then
+                            -- coverage[memberA]:insert(memberB)
+                        -- end
+                    -- end
                 end
             end
             local furthest = distances[memberA]:max()
