@@ -102,6 +102,7 @@ ignored_debuff_ids = S{29,572,557,556,557,558,559,560,561,562,563,564,565,566,56
 -- Bastok:		13,565,21
 -- San d'Oria:	572,149,558
 dyna_aura_ids = S{31,168,13,565,21,572,149,558,134,135}
+gaol_aura_ids = S{559,560,557,563,146,147,148,149,167,174,175}
 
 function buffs.getDebuffQueue()
 
@@ -110,19 +111,14 @@ function buffs.getDebuffQueue()
     for targ, debuffs in pairs(buffs.debuffList) do
         for id, info in pairs(debuffs) do
 			-- Aura ignore removal
-            if ignored_debuff_ids:contains(id) then
-                buffs.debuffList[targ][id] = nil
-				-- debug
-				--log('Ignore debuff - ' .. id)
-            else
-				-- Special case for Dynamis D. Zones
-				if (zone_info.zone == 294 or zone_info.zone == 295 or zone_info.zone == 296 or zone_info.zone == 297) then
-					if dyna_aura_ids:contains(id) then
+			if (zone_info.zone == 294 or zone_info.zone == 295 or zone_info.zone == 296 or zone_info.zone == 297) then
+				if (dyna_aura_ids:contains(id) or ignored_debuff_ids:contains(id)) then
 					--	log('Dyna D Aura - ' .. id)
 						buffs.debuffList[targ][id] = nil
 					else -- non aura removal
 						local debuff = res.buffs[id]
-						local removalSpellName = debuff_map[debuff.en]
+						--local removalSpellName = debuff_map[debuff.en]
+						local removalSpellName = restricted_debuff_map[debuff.en]
 						
 						--log('Current debuffs to remove: ' .. id)
 						
@@ -140,7 +136,32 @@ function buffs.getDebuffQueue()
 							buffs.debuffList[targ][id] = nil
 						end
 					end
-				else -- not in dyna zones
+			elseif (zone_info.zone == 182 or zone_info.zone == 298 or zone_info.zone == 279) then
+					if (gaol_aura_ids:contains(id) or ignored_debuff_ids:contains(id)) then
+						log('Gaol - ' .. id)
+						buffs.debuffList[targ][id] = nil
+					else -- non aura removal
+						local debuff = res.buffs[id]
+						--local removalSpellName = debuff_map[debuff.en]
+						local removalSpellName = restricted_debuff_map[debuff.en]
+						
+						--log('Current debuffs to remove: ' .. id)
+						
+						if (removalSpellName ~= nil) then
+							if (info.attempted == nil) or ((now - info.attempted) >= 3) then
+								local spell = res.spells:with('en', removalSpellName)
+								if healer:can_use(spell) and ffxi.target_is_valid(spell, targ) then
+									local ign = buffs.ignored_debuffs[debuff.en]
+									if not ((ign ~= nil) and ((ign.all == true) or ((ign[targ] ~= nil) and (ign[targ] == true)))) then
+										dbq:enqueue('debuff', spell, targ, debuff, ' ('..debuff.en..')')
+									end
+								end
+							end
+						else
+							buffs.debuffList[targ][id] = nil
+						end
+					end
+			else -- not in dyna zones
 					local debuff = res.buffs[id]
 					local removalSpellName = debuff_map[debuff.en]
 											
@@ -163,7 +184,89 @@ function buffs.getDebuffQueue()
 						buffs.debuffList[targ][id] = nil
 					end
 				end -- if dyna
-            end -- if ignore
+			
+			
+-- Old			
+			
+            -- if ignored_debuff_ids:contains(id) then
+                -- buffs.debuffList[targ][id] = nil
+				-- -- debug
+				-- --log('Ignore debuff - ' .. id)
+            -- else
+				-- -- Special case for Dynamis D. Zones
+				-- if (zone_info.zone == 294 or zone_info.zone == 295 or zone_info.zone == 296 or zone_info.zone == 297) then
+					-- if dyna_aura_ids:contains(id) then
+					-- --	log('Dyna D Aura - ' .. id)
+						-- buffs.debuffList[targ][id] = nil
+					-- else -- non aura removal
+						-- local debuff = res.buffs[id]
+						-- local removalSpellName = debuff_map[debuff.en]
+						
+						-- --log('Current debuffs to remove: ' .. id)
+						
+						-- if (removalSpellName ~= nil) then
+							-- if (info.attempted == nil) or ((now - info.attempted) >= 3) then
+								-- local spell = res.spells:with('en', removalSpellName)
+								-- if healer:can_use(spell) and ffxi.target_is_valid(spell, targ) then
+									-- local ign = buffs.ignored_debuffs[debuff.en]
+									-- if not ((ign ~= nil) and ((ign.all == true) or ((ign[targ] ~= nil) and (ign[targ] == true)))) then
+										-- dbq:enqueue('debuff', spell, targ, debuff, ' ('..debuff.en..')')
+									-- end
+								-- end
+							-- end
+						-- else
+							-- buffs.debuffList[targ][id] = nil
+						-- end
+					-- end
+				-- elseif (zone_info.zone == 182 or zone_info.zone == 298 or zone_info.zone == 279) then
+					-- if gaol_aura_ids:contains(id) then
+						-- log('Gaol - ' .. id)
+						-- buffs.debuffList[targ][id] = nil
+					-- else -- non aura removal
+						-- local debuff = res.buffs[id]
+						-- local removalSpellName = debuff_map[debuff.en]
+						
+						-- --log('Current debuffs to remove: ' .. id)
+						
+						-- if (removalSpellName ~= nil) then
+							-- if (info.attempted == nil) or ((now - info.attempted) >= 3) then
+								-- local spell = res.spells:with('en', removalSpellName)
+								-- if healer:can_use(spell) and ffxi.target_is_valid(spell, targ) then
+									-- local ign = buffs.ignored_debuffs[debuff.en]
+									-- if not ((ign ~= nil) and ((ign.all == true) or ((ign[targ] ~= nil) and (ign[targ] == true)))) then
+										-- dbq:enqueue('debuff', spell, targ, debuff, ' ('..debuff.en..')')
+									-- end
+								-- end
+							-- end
+						-- else
+							-- buffs.debuffList[targ][id] = nil
+						-- end
+					-- end
+				-- else -- not in dyna zones
+					-- local debuff = res.buffs[id]
+					-- local removalSpellName = debuff_map[debuff.en]
+											
+						-- --log('Current debuffs to remove: ' .. id)
+						-- --log(removalSpellName)
+											
+					-- if (removalSpellName ~= nil) then
+						-- if (info.attempted == nil) or ((now - info.attempted) >= 3) then
+							-- local spell = res.spells:with('en', removalSpellName)
+							-- if healer:can_use(spell) and ffxi.target_is_valid(spell, targ) then
+								-- local ign = buffs.ignored_debuffs[debuff.en]
+								-- if not ((ign ~= nil) and ((ign.all == true) or ((ign[targ] ~= nil) and (ign[targ] == true)))) then
+									-- dbq:enqueue('debuff', spell, targ, debuff, ' ('..debuff.en..')')
+								-- end
+								
+								
+							-- end
+						-- end
+					-- else
+						-- buffs.debuffList[targ][id] = nil
+					-- end
+				-- end -- if dyna
+            -- end -- if ignore
+			
         end -- for
     end -- for
     return dbq:getQueue()
