@@ -103,7 +103,7 @@ ignored_debuff_ids = S{29,572,557,556,557,558,559,560,561,562,563,564,565,566,56
 -- San d'Oria:	572,149,558 - Defense Down, Avoidance Down
 -- Dia, Bio for all zones: 134,135
 dyna_aura_ids = S{31,168,13,565,21,572,149,558,134,135}
-gaol_aura_ids = S{559,560,557,563,146,147,148,149,167,174,175}  -- "DOWN" Aura
+gaol_aura_ids = S{559,560,557,563,146,147,148,149,167,174,175,136,137,138,139,140,141,142}  -- "DOWN" Aura
 
 function buffs.getDebuffQueue()
 
