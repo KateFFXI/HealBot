@@ -58,6 +58,27 @@ local pm_keys = {
     {'p0','p1','p2','p3','p4','p5'}, {'a10','a11','a12','a13','a14','a15'}, {'a20','a21','a22','a23','a24','a25'}
 }
 
+	-- San d'Oria(294):		572,149,558 - Defense Down, Avoidance Down
+	-- Bastok(295):			13,565,21 - Slow, Addle
+	-- Windurst(296):		168 - Inhibit TP
+	-- Jeuno(297):			31 - Plague
+	-- Dia, Bio all zones: 	134,135
+	
+	--dyna_aura_ids = S{31,168,13,565,21,572,149,558,134,135} -- Auras
+	--gaol_aura_ids = S{146,147,148,149,167,404,174,175,136,137,138,139,140,141,142} -- "DOWN" Aura + Stat down
+	--gaes_fete_debuff_ids = S{29,572,557,556,557,558,559,560,561,562,563,564,565,566,567} -- Auras
+	dyna_sandoria_aura = {'defense down','avoidance down','dia','bio'}
+	dyna_bastok_aura = {'slow','addle','dia','bio'}
+	dyna_windurst_aura = {'inhibit tp','dia','bio'}
+	dyna_jeuno_aura = {'plague','dia','bio'}
+	dyna_auras = {'defense down','avoidance down','slow','addle','inhibit tp','plague','dia','bio'}
+	dyna_zones = S{294,295,296,297}
+
+	gaol_zones = S{279,298,147} -- test on beadeaux
+	gaol_auras = {'accuracy down','attack down','defense down','evasion down','magic def. down','magic atk. down','magic evasion down','magic acc. down','str down','int down','vit down','chr down','mnd down','dex down','agi down'}
+	
+
+
 local LevelRestrict = false
 
 hb._events['load'] = windower.register_event('load', function()
@@ -73,6 +94,39 @@ hb._events['load'] = windower.register_event('load', function()
 	zone_info = windower.ffxi.get_info()
     utils.load_configs()
     CureUtils.init_cure_potencies()
+	
+    if gaol_zones:contains(zone_info.zone) then
+		coroutine.sleep(5)
+		windower.add_to_chat(122,'Loaded HB in Shaol: Gaol, disabling HB debuff removal on auras.')
+		for i, debuff_name in ipairs(gaol_auras) do
+			windower.send_command('hb ignore_debuff all ' .. debuff_name)
+		end
+	elseif zone_info.zone == 294 then -- San d'Oria
+		coroutine.sleep(5)
+		windower.add_to_chat(122,'Loaded HB in Dynamis Divergence - San d\'Oria, disabling HB debuff removal on auras.')
+		for i, debuff_name in ipairs(dyna_sandoria_aura) do
+			windower.send_command('hb ignore_debuff all ' .. debuff_name)
+		end
+	elseif zone_info.zone == 295 then -- Bastok
+		coroutine.sleep(5)
+		windower.add_to_chat(122,'Loaded HB in Dynamis Divergence - Bastok, disabling HB debuff removal on auras.')
+		for i, debuff_name in ipairs(dyna_bastok_aura) do
+			windower.send_command('hb ignore_debuff all ' .. debuff_name)
+		end
+	elseif zone_info.zone == 296 then -- Windurst
+		coroutine.sleep(5)
+		windower.add_to_chat(122,'Loaded HB in Dynamis Divergence - Windurst, disabling HB debuff removal on auras.')
+		for i, debuff_name in ipairs(dyna_windurst_aura) do
+			windower.send_command('hb ignore_debuff all ' .. debuff_name)
+		end
+	elseif zone_info.zone == 297 then -- Jeuno
+		coroutine.sleep(5)
+		windower.add_to_chat(122,'Loaded HB in Dynamis Divergence - Jeuno, disabling HB debuff removal on auras.')
+		for i, debuff_name in ipairs(dyna_jeuno_aura) do
+			windower.send_command('hb ignore_debuff all ' .. debuff_name)
+		end
+	end
+	
 end)
 
 
@@ -87,30 +141,46 @@ hb._events['logout'] = windower.register_event('logout', function()
     windower.send_command('lua unload healBot')
 end)
 
-
--- hb._events['zone'] = windower.register_event('zone change', function(new_id, old_id)
-    -- healer.zone_enter = os.clock()
-    -- local zone_info = windower.ffxi.get_info()
-    -- if zone_info ~= nil then
-        -- if zone_info.zone == 131 then
-            -- windower.send_command('lua unload healBot')
-        -- elseif zone_info.mog_house == true then
-            -- hb.active = false
-        -- elseif settings.deactivateIndoors and indoor_zones:contains(zone_info.zone) then
-            -- hb.active = false
-        -- elseif settings.activateOutdoors and not indoor_zones:contains(zone_info.zone) then
-            -- hb.active = true
-        -- end
-    -- end
--- end)
-
 hb._events['zone'] = windower.register_event('zone change', function(new_id, old_id)
     healer.zone_enter = os.clock()
     buffs.resetDebuffTimers('ALL')
     zone_info = windower.ffxi.get_info()
+	
     if zone_info ~= nil then
         if zone_info.zone == 131 then
             windower.send_command('lua unload healBot')
+			
+		elseif gaol_zones:contains(zone_info.zone) then
+			coroutine.sleep(5)
+			windower.add_to_chat(122,'In Shaol: Gaol, disabling HB debuff removal on auras.')
+			--windower.send_command('hb ignore_debuff all curse')
+			for i, debuff_name in ipairs(gaol_auras) do
+				windower.send_command('hb ignore_debuff all ' .. debuff_name)
+			end
+		elseif zone_info.zone == 294 then -- San d'Oria
+			coroutine.sleep(5)
+			windower.add_to_chat(122,'In Dynamis Divergence - San d\'Oria, disabling HB debuff removal on auras.')
+			for i, debuff_name in ipairs(dyna_sandoria_aura) do
+				windower.send_command('hb ignore_debuff all ' .. debuff_name)
+			end
+		elseif zone_info.zone == 295 then -- Bastok
+			coroutine.sleep(5)
+			windower.add_to_chat(122,'In Dynamis Divergence - Bastok, disabling HB debuff removal on auras.')
+			for i, debuff_name in ipairs(dyna_bastok_aura) do
+				windower.send_command('hb ignore_debuff all ' .. debuff_name)
+			end
+		elseif zone_info.zone == 296 then -- Windurst
+			coroutine.sleep(5)
+			windower.add_to_chat(122,'In Dynamis Divergence - Windurst, disabling HB debuff removal on auras.')
+			for i, debuff_name in ipairs(dyna_windurst_aura) do
+				windower.send_command('hb ignore_debuff all ' .. debuff_name)
+			end
+		elseif zone_info.zone == 297 then -- Jeuno
+			coroutine.sleep(5)
+			windower.add_to_chat(122,'In Dynamis Divergence - Jeuno, disabling HB debuff removal on auras.')
+			for i, debuff_name in ipairs(dyna_jeuno_aura) do
+				windower.send_command('hb ignore_debuff all ' .. debuff_name)
+			end
         elseif zone_info.mog_house == true then
             hb.active = false
         elseif settings.deactivateIndoors and indoor_zones:contains(zone_info.zone) then
@@ -119,6 +189,22 @@ hb._events['zone'] = windower.register_event('zone change', function(new_id, old
             hb.active = true
         end
     end
+	
+	-- Exiting code
+	if gaol_zones:contains(old_id) then
+		coroutine.sleep(5)
+		windower.add_to_chat(122,'Exiting Shaol: Gaol zones, enabling NA/Erase removal.')
+		for i, debuff_name in ipairs(gaol_auras) do
+			windower.send_command('hb unignore_debuff all ' .. debuff_name)
+		end
+	elseif dyna_zones:contains(old_id) then
+		coroutine.sleep(5)
+		windower.add_to_chat(122,'Exiting any Dynamis Divergence zone, enabling NA/Erase removal.')
+		for i, debuff_name in ipairs(dyna_auras) do
+			windower.send_command('hb unignore_debuff all ' .. debuff_name)
+		end
+	end
+	
 end)
 
 
