@@ -74,7 +74,7 @@ local pm_keys = {
 	dyna_auras = {'defense down','avoidance down','slow','addle','inhibit tp','plague','dia','bio'}
 	dyna_zones = S{294,295,296,297}
 
-	gaol_zones = S{279,298,147} -- test on beadeaux
+	gaol_zones = S{279,298}
 	gaol_auras = {'accuracy down','attack down','defense down','evasion down','magic def. down','magic atk. down','magic evasion down','magic acc. down','str down','int down','vit down','chr down','mnd down','dex down','agi down'}
 	
 
