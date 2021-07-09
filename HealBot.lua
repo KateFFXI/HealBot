@@ -96,10 +96,21 @@ hb._events['load'] = windower.register_event('load', function()
     CureUtils.init_cure_potencies()
 	
     if gaol_zones:contains(zone_info.zone) then
-		coroutine.sleep(5)
-		windower.add_to_chat(122,'Loaded HB in Shaol: Gaol, disabling HB debuff removal on auras.')
-		for i, debuff_name in ipairs(gaol_auras) do
-			windower.send_command('hb ignore_debuff all ' .. debuff_name)
+		coroutine.sleep(10)
+		local current_buffs = windower.ffxi.get_player()["buffs"]
+		local SJRestrict = false
+		
+		for key,val in pairs(current_buffs) do
+			if val == 157 then -- SJ Restriction
+				SJRestrict = true
+			end
+		end
+
+		if SJRestrict == true then
+			windower.add_to_chat(122,'Loaded HB in Shaol: Gaol, disabling HB debuff removal on auras.')
+			for i, debuff_name in ipairs(gaol_auras) do
+				windower.send_command('hb ignore_debuff all ' .. debuff_name)
+			end
 		end
 	elseif zone_info.zone == 294 then -- San d'Oria
 		coroutine.sleep(5)
@@ -151,11 +162,21 @@ hb._events['zone'] = windower.register_event('zone change', function(new_id, old
             windower.send_command('lua unload healBot')
 			
 		elseif gaol_zones:contains(zone_info.zone) then
-			coroutine.sleep(5)
-			windower.add_to_chat(122,'In Shaol: Gaol, disabling HB debuff removal on auras.')
-			--windower.send_command('hb ignore_debuff all curse')
-			for i, debuff_name in ipairs(gaol_auras) do
-				windower.send_command('hb ignore_debuff all ' .. debuff_name)
+			coroutine.sleep(10)
+			local current_buffs = windower.ffxi.get_player()["buffs"]
+			local SJRestrict = false
+			
+			for key,val in pairs(current_buffs) do
+				if val == 157 then -- SJ Restriction
+					SJRestrict = true
+				end
+			end
+
+			if SJRestrict == true then
+				windower.add_to_chat(122,'In Shaol: Gaol, disabling HB debuff removal on auras.')
+				for i, debuff_name in ipairs(gaol_auras) do
+					windower.send_command('hb ignore_debuff all ' .. debuff_name)
+				end
 			end
 		elseif zone_info.zone == 294 then -- San d'Oria
 			coroutine.sleep(5)
