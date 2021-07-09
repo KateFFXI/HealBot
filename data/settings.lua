@@ -7,8 +7,8 @@ return {
         ['min'] = {
             ['curaga'] = 1,
             ['cure'] = 3,
-            ['waltz'] = 2,
-            ['waltzga'] = 1
+            ['waltz'] = 3,
+            ['waltzga'] = 2
         }
     },
     ['ignoreTrusts'] = false,
