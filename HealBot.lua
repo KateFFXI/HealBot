@@ -67,11 +67,11 @@ local pm_keys = {
 	--dyna_aura_ids = S{572,149,13,21,168,31,134,135} -- Auras
 	--gaol_aura_ids = S{146,147,148,149,167,404,174,175,136,137,138,139,140,141,142} -- "DOWN" Aura + Stat down
 	--gaes_fete_debuff_ids = S{29,557,558,559,560,561,562,563,564} -- Auras [Mute + 8 Down]
-	dyna_sandoria_aura = {'defense down','avoidance down','dia','bio'}
+	dyna_sandoria_aura = {'defense down','dia','bio'}	-- 'avoidance down', NOT CODED
 	dyna_bastok_aura = {'slow','addle','dia','bio'}
 	dyna_windurst_aura = {'inhibit tp','dia','bio'}
 	dyna_jeuno_aura = {'plague','dia','bio'}
-	dyna_auras = {'defense down','avoidance down','slow','addle','inhibit tp','plague','dia','bio'}
+	dyna_auras = {'defense down','slow','addle','inhibit tp','plague','dia','bio'}	-- 'avoidance down', NOT CODED
 	dyna_zones = S{294,295,296,297}
 
 	gaol_zones = S{279,298}
