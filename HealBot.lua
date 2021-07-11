@@ -212,13 +212,13 @@ hb._events['zone'] = windower.register_event('zone change', function(new_id, old
     end
 	
 	-- Exiting code
-	if gaol_zones:contains(old_id) then
+	if gaol_zones:contains(old_id) and not gaol_zones:contains(new_id) then
 		coroutine.sleep(5)
 		windower.add_to_chat(122,'Exiting Sheol: Gaol zones, enabling NA/Erase removal.')
 		for i, debuff_name in ipairs(gaol_auras) do
 			windower.send_command('hb unignore_debuff all ' .. debuff_name)
 		end
-	elseif dyna_zones:contains(old_id) then
+	elseif dyna_zones:contains(old_id) and not dyna_zones:contains(new_id) then
 		coroutine.sleep(5)
 		windower.add_to_chat(122,'Exiting any Dynamis Divergence zone, enabling NA/Erase removal.')
 		for i, debuff_name in ipairs(dyna_auras) do
