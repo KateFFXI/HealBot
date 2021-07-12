@@ -77,7 +77,8 @@ local pm_keys = {
 	gaol_zones = S{279,298}
 	gaol_auras = {'accuracy down','attack down','defense down','evasion down','magic def. down','magic atk. down','magic evasion down','magic acc. down','str down','int down','vit down','chr down','mnd down','dex down','agi down'}
 	
-
+	shinryu_debuffs = {'str down','int down','vit down','chr down','mnd down','dex down','agi down'}
+	shinryu_zone = 255
 
 local LevelRestrict = false
 
@@ -134,6 +135,12 @@ hb._events['load'] = windower.register_event('load', function()
 		coroutine.sleep(5)
 		windower.add_to_chat(122,'Loaded HB in Dynamis Divergence - Jeuno, disabling HB debuff removal on auras.')
 		for i, debuff_name in ipairs(dyna_jeuno_aura) do
+			windower.send_command('hb ignore_debuff all ' .. debuff_name)
+		end
+	elseif zone_info.zone == 255 then -- Abyssea - Empyreal Paradox
+		coroutine.sleep(5)
+		windower.add_to_chat(122,'Loaded HB in Abyssea - Empyreal Paradox, disabling HB debuff on stat down.')
+		for i, debuff_name in ipairs(shinryu_debuffs) do
 			windower.send_command('hb ignore_debuff all ' .. debuff_name)
 		end
 	end
@@ -202,6 +209,12 @@ hb._events['zone'] = windower.register_event('zone change', function(new_id, old
 			for i, debuff_name in ipairs(dyna_jeuno_aura) do
 				windower.send_command('hb ignore_debuff all ' .. debuff_name)
 			end
+		elseif zone_info.zone == 255 then -- Abyssea - Empyreal Paradox
+			coroutine.sleep(5)
+			windower.add_to_chat(122,'In Abyssea - Empyreal Paradox, disabling HB debuff on stat down.')
+			for i, debuff_name in ipairs(shinryu_debuffs) do
+				windower.send_command('hb ignore_debuff all ' .. debuff_name)
+			end
         elseif zone_info.mog_house == true then
             hb.active = false
         elseif settings.deactivateIndoors and indoor_zones:contains(zone_info.zone) then
@@ -222,6 +235,12 @@ hb._events['zone'] = windower.register_event('zone change', function(new_id, old
 		coroutine.sleep(5)
 		windower.add_to_chat(122,'Exiting any Dynamis Divergence zone, enabling NA/Erase removal.')
 		for i, debuff_name in ipairs(dyna_auras) do
+			windower.send_command('hb unignore_debuff all ' .. debuff_name)
+		end
+	elseif old_id == shinryu_zone and new_id ~= shinryu_zone then
+		coroutine.sleep(5)
+		windower.add_to_chat(122,'Exiting Abyssea - Empyreal Paradox, enabling NA/Erase removal.')
+		for i, debuff_name in ipairs(shinryu_debuffs) do
 			windower.send_command('hb unignore_debuff all ' .. debuff_name)
 		end
 	end
